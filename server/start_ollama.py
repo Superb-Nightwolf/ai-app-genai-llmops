@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL = "qwen3:4b"
 
 

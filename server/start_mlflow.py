@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MLFLOW_STORAGE = PROJECT_ROOT / "storage" / "mlflow"
 DATABASE_PATH = MLFLOW_STORAGE / "mlflow.db"
 ARTIFACTS_PATH = MLFLOW_STORAGE / "artifacts"

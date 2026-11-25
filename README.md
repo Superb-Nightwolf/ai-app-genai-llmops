@@ -5,9 +5,7 @@ AI Application/
 |-- .ai-app/                 # Existing Python virtual environment
 |-- App/
 |   |-- main.py             # FastAPI endpoints
-|   |-- start_fastapi.py    # Uvicorn launcher
 |   |-- llm/                # Model invocation logic
-|   |   `-- start_ollama.py  # Qwen model launcher
 |   |-- agents/             # Future LangGraph workflows
 |   |-- rag/                # Future retrieval and embeddings
 |   |-- tools/              # Future agent tools and MCP
@@ -19,7 +17,10 @@ AI Application/
 |   `-- vector_db/          # Future vector database
 |-- documents/              # Future RAG documents
 |-- tests/
-|-- start_mlflow.py          # MLflow launcher with absolute storage paths
+|-- server/
+|   |-- start_mlflow.py      # MLflow launcher with absolute storage paths
+|   |-- start_ollama.py      # Qwen model launcher
+|   `-- start_fastapi.py     # Uvicorn launcher
 |-- requirements.txt
 `-- .gitignore
 ```
@@ -33,7 +34,7 @@ Run these PowerShell commands from the project root. Install dependencies if nee
 Start MLflow in one terminal using the relocated database and artifacts:
 
 ```powershell
-.\.ai-app\Scripts\python.exe start_mlflow.py
+.\.ai-app\Scripts\python.exe server/start_mlflow.py
 ```
 
 The launcher resolves both storage paths from its own location, so the database is always `storage/mlflow/mlflow.db` and artifacts are always under `storage/mlflow/artifacts`, even when invoked by absolute path from another working directory. Use this launcher instead of plain `mlflow server`, which uses storage defaults in the current directory.
@@ -43,7 +44,7 @@ The API and smoke test continue connecting to `http://127.0.0.1:5000`. They acce
 With the Ollama app/service running, start the Qwen model in a second terminal:
 
 ```powershell
-.\.ai-app\Scripts\python.exe App/llm/start_ollama.py
+.\.ai-app\Scripts\python.exe server/start_ollama.py
 ```
 
 This opens Ollama's interactive chat for `qwen3:4b`, downloading the model if needed. It uses the same local Ollama endpoint as the API. If the Ollama service is stopped, open the Ollama app or run `ollama serve` in a separate terminal first.
@@ -51,7 +52,7 @@ This opens Ollama's interactive chat for `qwen3:4b`, downloading the model if ne
 Start the API in a third terminal:
 
 ```powershell
-.\.ai-app\Scripts\python.exe App/start_fastapi.py
+.\.ai-app\Scripts\python.exe server/start_fastapi.py
 ```
 
 The API launcher resolves the project root automatically and watches only `App/` for reloads. Open `http://127.0.0.1:8000/docs` for the API documentation.
