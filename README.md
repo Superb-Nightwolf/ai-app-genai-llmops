@@ -5,7 +5,9 @@ AI Application/
 |-- .ai-app/                 # Existing Python virtual environment
 |-- App/
 |   |-- main.py             # FastAPI endpoints
+|   |-- start_fastapi.py    # Uvicorn launcher
 |   |-- llm/                # Model invocation logic
+|   |   `-- start_ollama.py  # Qwen model launcher
 |   |-- agents/             # Future LangGraph workflows
 |   |-- rag/                # Future retrieval and embeddings
 |   |-- tools/              # Future agent tools and MCP
@@ -38,11 +40,21 @@ The launcher resolves both storage paths from its own location, so the database 
 
 The API and smoke test continue connecting to `http://127.0.0.1:5000`. They access storage through the MLflow server and do not need filesystem paths. Existing experiment and trace locations use `mlflow-artifacts:/` references, which the server resolves against the configured artifacts directory.
 
-Start the API in another terminal:
+With the Ollama app/service running, start the Qwen model in a second terminal:
 
 ```powershell
-.\.ai-app\Scripts\python.exe -m uvicorn App.main:app --reload
+.\.ai-app\Scripts\python.exe App/llm/start_ollama.py
 ```
+
+This opens Ollama's interactive chat for `qwen3:4b`, downloading the model if needed. It uses the same local Ollama endpoint as the API. If the Ollama service is stopped, open the Ollama app or run `ollama serve` in a separate terminal first.
+
+Start the API in a third terminal:
+
+```powershell
+.\.ai-app\Scripts\python.exe App/start_fastapi.py
+```
+
+The API launcher resolves the project root automatically and watches only `App/` for reloads. Open `http://127.0.0.1:8000/docs` for the API documentation.
 
 The chat endpoint expects Ollama at `http://127.0.0.1:11434` with the `qwen3:4b` model available. The API connects to MLflow at `http://127.0.0.1:5000`; start MLflow before the API.
 
