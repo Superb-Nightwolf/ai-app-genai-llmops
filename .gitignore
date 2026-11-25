@@ -1,0 +1,22 @@
+# Python environment and generated files
+.ai-app/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Persistent runtime data
+storage/mlflow/*
+!storage/mlflow/artifacts/
+storage/mlflow/artifacts/*
+!storage/mlflow/artifacts/.gitkeep
+storage/vector_db/*
+!storage/vector_db/.gitkeep
+documents/*
+!documents/.gitkeep
