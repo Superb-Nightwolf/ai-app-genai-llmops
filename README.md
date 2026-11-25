@@ -5,7 +5,7 @@ AI Application/
 |-- .ai-app/                 # Existing Python virtual environment
 |-- App/
 |   |-- main.py             # FastAPI endpoints
-|   |-- llm/                # Model invocation logic
+|   |-- llm/                # Future model invocation modules
 |   |-- agents/             # Future LangGraph workflows
 |   |-- rag/                # Future retrieval and embeddings
 |   |-- tools/              # Future agent tools and MCP
@@ -24,6 +24,8 @@ AI Application/
 |-- requirements.txt
 `-- .gitignore
 ```
+
+The launchers in `server/` are independent, manually run utilities. Application code does not import or launch them. Model invocation remains in `App/main.py`.
 
 Run these PowerShell commands from the project root. Install dependencies if needed:
 
