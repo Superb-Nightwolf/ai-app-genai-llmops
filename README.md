@@ -17,6 +17,7 @@ AI Application/
 |   `-- vector_db/          # Future vector database
 |-- documents/              # Future RAG documents
 |-- tests/
+|-- start_mlflow.py          # MLflow launcher with absolute storage paths
 |-- requirements.txt
 `-- .gitignore
 ```
@@ -30,8 +31,12 @@ Run these PowerShell commands from the project root. Install dependencies if nee
 Start MLflow in one terminal using the relocated database and artifacts:
 
 ```powershell
-.\.ai-app\Scripts\mlflow.exe server --backend-store-uri "sqlite:///storage/mlflow/mlflow.db" --artifacts-destination "./storage/mlflow/artifacts" --host 127.0.0.1 --port 5000
+.\.ai-app\Scripts\python.exe start_mlflow.py
 ```
+
+The launcher resolves both storage paths from its own location, so the database is always `storage/mlflow/mlflow.db` and artifacts are always under `storage/mlflow/artifacts`, even when invoked by absolute path from another working directory. Use this launcher instead of plain `mlflow server`, which uses storage defaults in the current directory.
+
+The API and smoke test continue connecting to `http://127.0.0.1:5000`. They access storage through the MLflow server and do not need filesystem paths. Existing experiment and trace locations use `mlflow-artifacts:/` references, which the server resolves against the configured artifacts directory.
 
 Start the API in another terminal:
 
